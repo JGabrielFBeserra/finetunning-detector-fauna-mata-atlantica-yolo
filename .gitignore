@@ -1,0 +1,42 @@
+# Ambiente Virtual Python
+Scripts/
+Lib/
+Include/
+pyvenv.cfg
+share/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Modelos grandes (opcional - descomente se quiser ignorar)
+yolov8*.pt
+
+# Resultados de treinamento (muito grandes)
+#runs/*/
+#!runs/.gitkeep
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Sistema Operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+
+# Numpy/Torch
+*.npy
+*.npz

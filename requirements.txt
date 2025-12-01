@@ -1,0 +1,12 @@
+# Dependências do Projeto
+
+## Instalação
+
+```bash
+pip install -r requirements.txt
+```
+
+## Principais Bibliotecas
+
+ultralytics>=8.0.0
+
