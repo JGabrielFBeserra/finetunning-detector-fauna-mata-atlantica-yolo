@@ -112,6 +112,7 @@ Contribuições são bem-vindas! Este é um projeto de pesquisa em VLMs e Biolog
 
 - [Ultralytics YOLOv8 Documentation](https://docs.ultralytics.com/)
 - [YOLOv8 GitHub](https://github.com/ultralytics/ultralytics)
+- [Playlist ensinando tudo sobre YOLOV8](https://www.youtube.com/playlist?list=PLv8Cp2NvcY8ClWpGlPJ9tmBmUhlA94Umy)
 
 ## 📝 Licença
 

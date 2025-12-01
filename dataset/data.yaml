@@ -1,0 +1,30 @@
+# Dataset de Fauna da Mata Atlântica
+# Configuração para YOLOv8
+
+# Caminhos das pastas
+path: ../dataset  # caminho relativo à raiz do projeto
+train: images/train  # caminho relativo ao 'path'
+val: images/val      # caminho relativo ao 'path'
+
+names:
+
+  
+0: Bicho-Preguica
+1: Cachorro
+2: Cachorro do Mato
+3: Capivara
+4: Cutia
+5: Gamba'
+6: Gato do Mato
+7: Guaxinim
+8: Lagarto Teiu'
+9: Lobo Guara'
+10: Onca
+11: Oucico Cacheiro
+12: Paca
+13: Tamandu'a Mirim
+14: Tatu
+
+
+# Número de classes
+nc: 8
