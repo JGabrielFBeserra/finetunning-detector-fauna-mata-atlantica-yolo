@@ -9,24 +9,18 @@ Projeto de detecção e classificação de animais da Mata Atlântica em passage
 # 1. Criar Ambiente
 python -m venv yolo
 cd yolo
-git clone https://github.com/seu-usuario/finetuning-detector-fauna-mata-atlantica-yolov8.git
 
-# 2. Entrar no diretório
-cd finetuning-detector-fauna-mata-atlantica-yolov8
-
-# 3. Colar tudo para dentro do ambiente
-control + c em /finetuning...
-control + v em /yolo
-
-# 4. Ativar ambiente
+# 2. Ativar ambiente
 .\Scripts\activate  # Windows
 
+# 3. Clonar Repo
+cd finetuning-detector-fauna-mata-atlantica-yolov8
+git clone https://github.com/seu-usuario/finetuning-detector-fauna-mata-atlantica-yolov8.git
 
-# 5. Instalar dependências]
-cd .. para sair de #/Scripts/
+# 4. Instalar dependências]
 pip install -r requirements.txt
 
-# 6. Pronto para usar!
+# 5. Pronto para usar!
 ```
 
 ## 📊 Preparação do Dataset
