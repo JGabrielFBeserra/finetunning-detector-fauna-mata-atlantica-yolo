@@ -13,7 +13,7 @@ __pycache__/
 .Python
 
 # Modelos grandes (opcional - descomente se quiser ignorar)
-yolov8*.pt
+#yolov8*.pt
 
 # Resultados de treinamento (muito grandes)
 #runs/*/
@@ -40,3 +40,10 @@ desktop.ini
 # Numpy/Torch
 *.npy
 *.npz
+
+# Imagens do dataset (não versionar)
+dataset/all-images/Gamba/*.jpg
+dataset/all-images/Paca/*.jpg
+dataset/all-images/Paca/*.txt
+dataset/all-images/Tatu/*.jpg
+

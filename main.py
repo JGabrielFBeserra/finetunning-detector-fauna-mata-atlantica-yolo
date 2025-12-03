@@ -1,0 +1,18 @@
+from ultralytics import YOLO
+import os
+
+# Garantir que estamos no diretório correto
+script_dir = os.path.dirname(os.path.abspath(__file__))
+os.chdir(script_dir)
+
+model = YOLO('yolov8n.pt') # modelo de deteccao
+# model = YOLO('yolov8x-seg.pt') # modelo de segmentacao
+# model = YOLO('yolov8x-cls.pt') # modelo de classificao
+
+model = YOLO('yolov8n-detector-gamba.pt') # modelo de deteccao com meu dataset proprio
+# predizer uma pasta inteira
+model.predict(source="dataset/all-images/Teste", save=True)
+
+# treinar o modelo
+#model.train(data='dataset/data.yaml', epochs=20, batch=16, workers=1)
+print(f"Resultados salvos em: {model.predictor.save_dir}")

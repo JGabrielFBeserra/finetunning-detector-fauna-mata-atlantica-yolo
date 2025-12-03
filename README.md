@@ -2,6 +2,11 @@
 
 Projeto de detecção e classificação de animais da Mata Atlântica em passagens de fauna utilizando YOLOv8 para estudo.
 
+## 🔗 Links Importantes
+
+- **[Google Colab - Treinamento](https://colab.research.google.com/drive/1_JC108jcjFjbpq-0VExYTX4nynL1r6Ab?usp=sharing)** - Notebook para treinar o modelo na GPU do Google Colab
+- **[LabelImg](https://github.com/HumanSignal/labelImg)** - Ferramenta para anotação de imagens (bounding boxes)
+
 ## 🚀 Setup do Ambiente
 
 ### 1. Criar diretório do projeto pra usar e testar
