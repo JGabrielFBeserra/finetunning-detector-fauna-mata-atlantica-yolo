@@ -3,5 +3,5 @@ train: all-images/Gamba
 val: all-images/Gamba 
 
 nc: 2
-names: ['Gamba', 'Paca']
+names: ['Gamba', 'Paca', 'Undefined']
 

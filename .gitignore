@@ -42,8 +42,6 @@ desktop.ini
 *.npz
 
 # Imagens do dataset (não versionar)
-dataset/all-images/Gamba/*.jpg
-dataset/all-images/Paca/*.jpg
-dataset/all-images/Paca/*.txt
-dataset/all-images/Tatu/*.jpg
+dataset/all-images/
+
 
