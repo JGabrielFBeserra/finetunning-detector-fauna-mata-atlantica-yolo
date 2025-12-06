@@ -7,7 +7,7 @@ import os
 script_dir = os.path.dirname(os.path.abspath(__file__))
 os.chdir(script_dir)
 
-model = YOLO('yolov8n.pt') # modelo de deteccao
+
 # model = YOLO('yolov8x-seg.pt') # modelo de segmentacao
 # model = YOLO('yolov8x-cls.pt') # modelo de classificao
 
