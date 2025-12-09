@@ -74,8 +74,16 @@ class ImageRenamerGUI:
         ttk.Label(class_frame, text="classe:").pack(side=tk.LEFT, padx=5)
         
         self.class_var = tk.StringVar()
-        self.class_combo = ttk.Combobox(class_frame, textvariable=self.class_var, state="readonly", width=30)
+        self.class_combo = ttk.Combobox(class_frame, textvariable=self.class_var, state="readonly", width=20)
         self.class_combo.pack(side=tk.LEFT, padx=5)
+        
+        ttk.Label(class_frame, text="periodo:").pack(side=tk.LEFT, padx=5)
+        
+        self.period_var = tk.StringVar(value="dia")
+        self.period_combo = ttk.Combobox(class_frame, textvariable=self.period_var, state="readonly", width=10)
+        self.period_combo['values'] = ['dia', 'noite']
+        self.period_combo.current(0)
+        self.period_combo.pack(side=tk.LEFT, padx=5)
         
         ttk.Button(class_frame, text="salvar (enter)", command=self.rename_image).pack(side=tk.LEFT, padx=5)
         
@@ -200,15 +208,20 @@ class ImageRenamerGUI:
             return
         
         selected_class = self.class_var.get()
+        selected_period = self.period_var.get()
         
         if not selected_class:
             messagebox.showerror("erro", "selecione uma classe")
             return
         
+        if not selected_period:
+            messagebox.showerror("erro", "selecione um periodo")
+            return
+        
         current_file = self.image_files[self.current_index]
         class_name = selected_class.lower().replace(" ", "_")
         hash_code = generate_hash()
-        new_name = f"{class_name}_{hash_code}.jpg"
+        new_name = f"{class_name}_{selected_period}_{hash_code}.jpg"
         new_path = current_file.parent / new_name
         
         try:
@@ -230,13 +243,7 @@ class ImageRenamerGUI:
         
         current_file = self.image_files[self.current_index]
         
-        response = messagebox.askyesno(
-            "confirmar exclusao",
-            f"tem certeza que deseja excluir?\n{current_file.name}"
-        )
-        
-        if not response:
-            return
+
         
         try:
             current_file.unlink()

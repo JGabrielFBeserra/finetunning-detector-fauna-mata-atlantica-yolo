@@ -3,5 +3,5 @@ train: all-images/Gamba
 val: all-images/Gamba 
 
 nc: 5
-names: ['Gamba', 'Paca', 'Undefined', 'Lagarto-Teiú', 'Gato']
+names: ['Gamba', 'Paca', 'Undefined', 'Lagarto-Teiú', 'Gato', 'Mão Pelada', 'Jaquatirica', 'Ave', 'Humano', 'Background', 'Capivara']
 
