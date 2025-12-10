@@ -1,7 +1,7 @@
 from ultralytics import YOLO
 import os
 
-#garantindo commit 2
+#garantindo commit 3
 
 # Garantir que estamos no diretório correto
 script_dir = os.path.dirname(os.path.abspath(__file__))
