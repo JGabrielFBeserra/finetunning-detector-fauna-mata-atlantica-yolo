@@ -9,7 +9,7 @@ class VideoDetectorGUI:
     def __init__(self, root):
         self.root = root
         self.root.title("deteccao em video - yolov8")
-        self.root.geometry("500x200")
+        self.root.geometry("1920x1080")
         
         self.video_path = tk.StringVar()
         self.model_path = tk.StringVar(value="yolov8n-detector-gamba.pt")
@@ -88,6 +88,11 @@ class VideoDetectorGUI:
                 self.root.deiconify()
                 return
             
+            # Criar janela redimensionavel para exibir video completo
+            window_name = 'deteccao - pressione q para sair'
+            cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
+            cv2.resizeWindow(window_name, 1920, 1080)
+            
             print("processando video - pressione 'q' para sair")
             
             while cap.isOpened():
@@ -96,10 +101,12 @@ class VideoDetectorGUI:
                 if not ret:
                     break
                 
-                results = model(frame, verbose=False)
+                # imgsz define o tamanho da imagem para inferencia (maior = mais detalhes, mais lento)
+                # o video continua na resolucao original, imgsz afeta apenas o processamento
+                results = model(frame, imgsz=1920, verbose=False)
                 annotated_frame = results[0].plot()
                 
-                cv2.imshow('deteccao - pressione q para sair', annotated_frame)
+                cv2.imshow(window_name, annotated_frame)
                 
                 if cv2.waitKey(1) & 0xFF == ord('q'):
                     break
