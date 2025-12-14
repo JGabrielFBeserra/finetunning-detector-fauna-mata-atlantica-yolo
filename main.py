@@ -11,7 +11,7 @@ os.chdir(script_dir)
 # model = YOLO('yolov8x-seg.pt') # modelo de segmentacao
 # model = YOLO('yolov8x-cls.pt') # modelo de classificao
 
-model = YOLO('yolov8n-detector-gamba.pt') # modelo de deteccao com meu dataset proprio
+model = YOLO('yolo11n-v1.pt') # modelo de deteccao com meu dataset proprio
 # predizer uma pasta inteira
 model.predict(source="dataset/all-images/Teste", save=True)
 
