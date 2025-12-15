@@ -16,7 +16,6 @@ def generate_hash():
 
 
 def load_classes_from_yaml(yaml_path):
-    """carrega a lista de classes do arquivo data.yaml"""
     try:
         with open(yaml_path, 'r', encoding='utf-8') as f:
             data = yaml.safe_load(f)
@@ -161,7 +160,13 @@ class ImageRenamerGUI:
         try:
             img = Image.open(current_file)
             
-            img.thumbnail((800, 600), Image.Resampling.LANCZOS)
+            label_width = self.image_label.winfo_width()
+            label_height = self.image_label.winfo_height()
+            
+            if label_width > 1 and label_height > 1:
+                img.thumbnail((label_width - 20, label_height - 20), Image.Resampling.LANCZOS)
+            else:
+                img.thumbnail((800, 600), Image.Resampling.LANCZOS)
             
             photo = ImageTk.PhotoImage(img)
             
@@ -242,8 +247,6 @@ class ImageRenamerGUI:
             return
         
         current_file = self.image_files[self.current_index]
-        
-
         
         try:
             current_file.unlink()
