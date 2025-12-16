@@ -169,7 +169,7 @@ class VideoFrameExtractorGUI:
                 total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
                 duration_seconds = total_frames / fps if fps > 0 else 0
                 
-                process_interval = 0.5
+                process_interval = 1
                 frame_skip = int(fps * process_interval)
                 expected_checks = int(duration_seconds / process_interval)
                 

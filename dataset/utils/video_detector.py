@@ -12,7 +12,7 @@ class VideoDetectorGUI:
     def __init__(self, root):
         self.root = root
         self.root.title("visualizador e detector de videos - yolov8")
-        self.root.geometry("900x700")
+        self.root.geometry("1100x700")  # Mais largo, menos alto
         
         self.folder_path = tk.StringVar()
         self.model_path = tk.StringVar(value="yolov8n-detector-gamba.pt")
@@ -25,6 +25,7 @@ class VideoDetectorGUI:
         self.total_frames = 0
         self.current_frame = 0
         self.fps = 30
+        self.confidence_threshold = tk.DoubleVar(value=0.50)  # Limiar de confiança padrão 50%
         
         self.setup_ui()
     
@@ -49,9 +50,9 @@ class VideoDetectorGUI:
         ttk.Button(folder_frame, text="selecionar pasta", command=self.browse_folder).pack(side=tk.LEFT, padx=5)
         
         list_frame = ttk.LabelFrame(main_frame, text="videos encontrados", padding="5")
-        list_frame.grid(row=4, column=0, sticky=(tk.W, tk.E), pady=10)
+        list_frame.grid(row=4, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=5)
         
-        self.video_listbox = tk.Listbox(list_frame, height=6)
+        self.video_listbox = tk.Listbox(list_frame, height=4)  # Reduzido de 6 para 4
         self.video_listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         self.video_listbox.bind('<<ListboxSelect>>', self.on_video_select)
         
@@ -59,39 +60,73 @@ class VideoDetectorGUI:
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
         self.video_listbox.config(yscrollcommand=scrollbar.set)
         
-        controls_frame = ttk.LabelFrame(main_frame, text="controles", padding="10")
-        controls_frame.grid(row=5, column=0, sticky=(tk.W, tk.E), pady=10)
+        controls_frame = ttk.LabelFrame(main_frame, text="controles e timeline", padding="5")
+        controls_frame.grid(row=5, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=5)
         
         nav_frame = ttk.Frame(controls_frame)
-        nav_frame.pack(fill=tk.X, pady=5)
+        nav_frame.pack(fill=tk.X, pady=2)
         
-        ttk.Button(nav_frame, text="⏮ anterior", command=self.previous_video, width=15).pack(side=tk.LEFT, padx=5)
-        self.play_pause_button = ttk.Button(nav_frame, text="▶ play", command=self.toggle_play_pause, width=15)
-        self.play_pause_button.pack(side=tk.LEFT, padx=5)
-        ttk.Button(nav_frame, text="proximo ⏭", command=self.next_video, width=15).pack(side=tk.LEFT, padx=5)
+        ttk.Button(nav_frame, text="⏮ anterior", command=self.previous_video, width=12).pack(side=tk.LEFT, padx=2)
+        self.play_pause_button = ttk.Button(nav_frame, text="▶ play", command=self.toggle_play_pause, width=12)
+        self.play_pause_button.pack(side=tk.LEFT, padx=2)
+        ttk.Button(nav_frame, text="proximo ⏭", command=self.next_video, width=12).pack(side=tk.LEFT, padx=2)
         
-        timeline_frame = ttk.Frame(controls_frame)
-        timeline_frame.pack(fill=tk.X, pady=10)
-        
-        ttk.Label(timeline_frame, text="posicao do video:").pack(anchor=tk.W)
+        self.time_label = ttk.Label(nav_frame, text="00:00 / 00:00", font=("Arial", 9))
+        self.time_label.pack(side=tk.LEFT, padx=10)
         
         self.timeline_scale = tk.Scale(
-            timeline_frame, 
+            controls_frame, 
             from_=0, 
             to=100, 
             orient=tk.HORIZONTAL,
             command=self.on_timeline_change,
-            length=600
+            showvalue=False
         )
-        self.timeline_scale.pack(fill=tk.X, pady=5)
+        self.timeline_scale.pack(fill=tk.X, pady=2)
         
-        self.time_label = ttk.Label(timeline_frame, text="00:00 / 00:00")
-        self.time_label.pack(anchor=tk.W)
+        # LINHA COM CONFIANÇA E RENOMEAR LADO A LADO
+        bottom_frame = ttk.Frame(main_frame)
+        bottom_frame.grid(row=6, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=5)
         
-        rename_frame = ttk.LabelFrame(main_frame, text="renomear video", padding="10")
-        rename_frame.grid(row=7, column=0, sticky=(tk.W, tk.E), pady=10)
+        # CONTROLE DE CONFIANÇA (ESQUERDA)
+        confidence_frame = ttk.LabelFrame(bottom_frame, text="🎯 filtro confianca", padding="5")
+        confidence_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0, 5))
         
-        ttk.Label(rename_frame, text="classificacao:").pack(anchor=tk.W, pady=2)
+        slider_frame = ttk.Frame(confidence_frame)
+        slider_frame.pack(fill=tk.X, pady=2)
+        
+        ttk.Label(slider_frame, text="0%", font=("Arial", 8)).pack(side=tk.LEFT, padx=2)
+        
+        self.confidence_scale = tk.Scale(
+            slider_frame,
+            from_=0.0,
+            to=1.0,
+            resolution=0.01,
+            orient=tk.HORIZONTAL,
+            variable=self.confidence_threshold,
+            command=self.update_confidence_label,
+            showvalue=False
+        )
+        self.confidence_scale.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=2)
+        
+        ttk.Label(slider_frame, text="100%", font=("Arial", 8)).pack(side=tk.LEFT, padx=2)
+        
+        self.confidence_label = ttk.Label(
+            confidence_frame, 
+            text="50% (0.50)", 
+            foreground="blue",
+            font=("Arial", 9, "bold")
+        )
+        self.confidence_label.pack(pady=2)
+        
+        # RENOMEAR (DIREITA)
+        rename_frame = ttk.LabelFrame(bottom_frame, text="renomear video", padding="5")
+        rename_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(5, 0))
+        # RENOMEAR (DIREITA)
+        rename_frame = ttk.LabelFrame(bottom_frame, text="renomear video", padding="5")
+        rename_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(5, 0))
+        
+        ttk.Label(rename_frame, text="classificacao:", font=("Arial", 8)).pack(anchor=tk.W, pady=1)
         
         self.classification_var = tk.StringVar()
         classification_combo = ttk.Combobox(
@@ -99,15 +134,15 @@ class VideoDetectorGUI:
             textvariable=self.classification_var,
             values=["positivo_positivo", "falso_positivo", "falso_negativo", "negativo_negativo"],
             state="readonly",
-            width=30
+            font=("Arial", 8)
         )
-        classification_combo.pack(fill=tk.X, pady=5)
+        classification_combo.pack(fill=tk.X, pady=2)
         classification_combo.current(0)
         
-        ttk.Button(rename_frame, text="💾 salvar nome do video", command=self.rename_video).pack(pady=5)
+        ttk.Button(rename_frame, text="💾 salvar nome", command=self.rename_video, width=15).pack(pady=2)
         
-        self.status_label = ttk.Label(main_frame, text="selecione uma pasta com videos", foreground="blue")
-        self.status_label.grid(row=8, column=0, sticky=tk.W, pady=5)
+        self.status_label = ttk.Label(main_frame, text="selecione uma pasta com videos", foreground="blue", font=("Arial", 9))
+        self.status_label.grid(row=7, column=0, columnspan=2, sticky=tk.W, pady=5)
         
         self.root.columnconfigure(0, weight=1)
         self.root.rowconfigure(0, weight=1)
@@ -120,6 +155,12 @@ class VideoDetectorGUI:
         )
         if file_path:
             self.model_path.set(file_path)
+    
+    def update_confidence_label(self, value):
+        """Atualiza o label do threshold de confiança"""
+        threshold = float(value)
+        percentage = int(threshold * 100)
+        self.confidence_label.config(text=f"{percentage}% ({threshold:.2f})")
     
     def browse_folder(self):
         folder = filedialog.askdirectory(title="selecionar pasta com videos")
@@ -296,7 +337,7 @@ class VideoDetectorGUI:
             cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
             cv2.resizeWindow(window_name, 1280, 720)
             
-            process_interval = 0.5
+            process_interval = 1
             frame_skip = int(self.fps * process_interval)
             
             last_annotated_frame = None
@@ -310,9 +351,14 @@ class VideoDetectorGUI:
                         break
                     
                     if self.current_frame % frame_skip == 0:
-                        results = model(frame, imgsz=1920, verbose=False)
+                        # Usa o threshold diretamente no YOLO para filtrar
+                        threshold = self.confidence_threshold.get()
+                        results = model(frame, imgsz=1920, verbose=False, conf=threshold)
+                        
+                        # Deixa o YOLO fazer o plot com as cores certas por classe
                         last_annotated_frame = results[0].plot()
                         
+                        # Mostra detecções no console
                         if len(results[0].boxes) > 0:
                             print(f"\nFrame {self.current_frame}:")
                             for box in results[0].boxes:

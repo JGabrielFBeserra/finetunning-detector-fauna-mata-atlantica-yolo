@@ -21,7 +21,7 @@ CLASSES = [
     "Oucico Cacheiro",
     "Paca",
     "Tamandua Mirim",
-    "Tatu"
+    "Tatu",
     "0-Banco-de-Fotos"
 ]
 
