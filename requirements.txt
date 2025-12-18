@@ -1,12 +1,35 @@
-# Dependências do Projeto
+# Dependências do Projeto - Detector de Fauna Mata Atlântica YOLO
 
 ## Instalação
-
-# ```bash
 # pip install -r requirements.txt
-# ```
 
 ## Principais Bibliotecas
 
+# YOLO e Deep Learning
 ultralytics>=8.0.0
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Visão Computacional
+opencv-python>=4.8.0
+numpy>=1.24.0
+pillow>=10.0.0
+
+# Interface Gráfica (Tkinter já vem com Python)
+# tkinter - built-in
+
+# Captura de Tela
+mss>=9.0.0
+
+# Automação e Input
+pyautogui>=0.9.54
+keyboard>=0.13.5
+
+# Utilitários
+pyyaml>=6.0
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+
+# Opcional para análise de HTML
+lxml>=4.9.0
 

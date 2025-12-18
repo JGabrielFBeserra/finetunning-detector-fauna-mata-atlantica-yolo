@@ -337,7 +337,7 @@ class VideoDetectorGUI:
             cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
             cv2.resizeWindow(window_name, 1280, 720)
             
-            process_interval = 1
+            process_interval = 0.5
             frame_skip = int(self.fps * process_interval)
             
             last_annotated_frame = None
